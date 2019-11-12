@@ -1,0 +1,15 @@
+.employeesTableWrapper {
+    width:90%;
+    margin: 5% auto;
+  table {
+    width: 100%;
+  }
+
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+  tr.mat-header-row{
+      
+    background: #d4d4d4;
+  }
+}
