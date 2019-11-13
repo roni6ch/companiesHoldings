@@ -1,0 +1,27 @@
+<h1 mat-dialog-title>{{data.action}} Company</h1>
+
+
+<div mat-dialog-content *ngIf="data.action === 'Add' || data.action === 'Edit'">
+    <form class="example-form">
+        <!-- Edit Company Name -->
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Company Name" value={{data.name}} #company_name>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+        <!-- Select Branch -->
+            <mat-label>Branch</mat-label>
+            <mat-select [(value)]="data.branch">
+                <mat-option *ngFor="let company of data.companies" [value]="company.branch">
+                    {{company.branch}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+    <button mat-icon-button matRipple [mat-dialog-close]="true" (click)="editCompany(data._id,company_name.value,data.branch)">OK!</button>
+    <button mat-icon-button matRipple mat-dialog-close>Cancel</button>
+</div>
+<div mat-dialog-content *ngIf="data.action === 'Delete'">
+    <p>Are you sure you want to {{data.action}} <span class="bold">{{data.name}}</span> company?</p>
+    <button mat-icon-button matRipple [mat-dialog-close]="true" (click)="deleteCompany(data.id)">Yes!</button>
+    <button mat-icon-button matRipple mat-dialog-close>No!</button>
+</div>

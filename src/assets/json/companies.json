@@ -1,8 +1,10 @@
 [{
+  "_id":"1324",
     "name": "Apple",
     "branch": "Hi-Tech",
     "logo":""
   },{
+    "_id":"2123",
     "name": "Cellcom",
     "branch": "Communication",
     "logo":""

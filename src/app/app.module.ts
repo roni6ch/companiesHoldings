@@ -12,16 +12,20 @@ import {
   MatTableModule,
   MatIconModule,
   MatToolbarModule,
-  MatRippleModule
+  MatRippleModule,
+  MatButtonModule,
+  MatSelectModule,
 } from "@angular/material";
-
-/*  COMPONENTS */
-import { AppComponent } from "./app.component";
-import { CompaniesTableComponent } from "./components/holdings-table/companies-table.component";
 
 /*  LIBRERIES */
 import "hammerjs";
+
+/*  COMPONENTS */
+import { AppComponent } from "./app.component";
+import { CompaniesTableComponent } from "./components/companies-table/companies-table.component";
 import { EmployeesTableComponent } from "./components/employees-table/employees-table.component";
+import { ModalComponent } from './components/modal/modal.component';
+
 
 /* SERVICE */
 /* PIPES */
@@ -30,7 +34,8 @@ import { EmployeesTableComponent } from "./components/employees-table/employees-
   declarations: [
     AppComponent,
     CompaniesTableComponent,
-    EmployeesTableComponent
+    EmployeesTableComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
@@ -44,8 +49,11 @@ import { EmployeesTableComponent } from "./components/employees-table/employees-
     MatDialogModule,
     MatInputModule,
     MatIconModule,
-    MatRippleModule
+    MatRippleModule,
+    MatButtonModule,
+    MatSelectModule
   ],
+  entryComponents: [ModalComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
