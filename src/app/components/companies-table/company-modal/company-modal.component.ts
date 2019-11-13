@@ -1,14 +1,14 @@
 
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpRequestsService } from '../../services/http-requests.service';
+import { HttpRequestsService } from '../../../services/http-requests.service';
 
 @Component({
-  selector: 'app-modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss']
+  selector: 'company-modal',
+  templateUrl: './company-modal.component.html',
+  styleUrls: ['./company-modal.component.scss']
 })
-export class ModalComponent {
+export class CompanyModalComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data, private httpReq: HttpRequestsService) { }
 

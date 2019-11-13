@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { HttpRequestsService } from '../../services/http-requests.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalComponent } from './../modal/modal.component';
+import { CompanyModalComponent } from './company-modal/company-modal.component';
 import { ICompany } from '../../shared/ICompany';
 import { log } from 'util';
 
@@ -42,7 +42,7 @@ export class CompaniesTableComponent implements OnInit {
   }
 
   deleteDialog(id: number, name: string) {
-    this.dialog.open(ModalComponent, {
+    this.dialog.open(CompanyModalComponent, {
       data: {
         id,
         name,
@@ -58,7 +58,7 @@ export class CompaniesTableComponent implements OnInit {
   }
 
   editDialog(row: ICompany) {
-    this.dialog.open(ModalComponent, {
+    this.dialog.open(CompanyModalComponent, {
       data: {
         _id: row._id,
         name: row.name,
@@ -74,7 +74,7 @@ export class CompaniesTableComponent implements OnInit {
   }
 
   addNew() {
-    this.dialog.open(ModalComponent, {
+    this.dialog.open(CompanyModalComponent, {
       data: {
         name: '',
         branch: '',

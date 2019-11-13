@@ -1,7 +1,7 @@
 export interface IEmployee {
     first_name: string;
     last_name: string;
-    id: string;
+    tz_id: string;
     role: string;
     company: string;
     manager: boolean;

@@ -27,6 +27,9 @@ export class HttpRequestsService {
   getEmployees(): Observable<IEmployee[]> {
     return this.http.get<IEmployee[]>(this._employees_url);
   }
+  addEmployee(first_name:String, last_name:String,tz_id:Number, manager:Boolean,experience:Number, company:String): Observable<IEmployee[]> {
+    return this.http.post<IEmployee[]>(this._server_url + '/addEmployee', {first_name, last_name,tz_id, manager,experience, company});
+  }
   getCompanies(): Observable<ICompany[]> {
     //this.http.get<ICompany[]>(this._companies_url).subscribe(res => this.companiesSubject.next(res)); return this.companiesSubject;
     return this.http.get<ICompany[]>(this._companies_url)

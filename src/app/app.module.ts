@@ -15,6 +15,8 @@ import {
   MatRippleModule,
   MatButtonModule,
   MatSelectModule,
+  MatSlideToggleModule,
+  MatFormFieldModule,
 } from "@angular/material";
 
 /*  LIBRERIES */
@@ -24,7 +26,8 @@ import "hammerjs";
 import { AppComponent } from "./app.component";
 import { CompaniesTableComponent } from "./components/companies-table/companies-table.component";
 import { EmployeesTableComponent } from "./components/employees-table/employees-table.component";
-import { ModalComponent } from './components/modal/modal.component';
+import { CompanyModalComponent } from './components/companies-table/company-modal/company-modal.component';
+import { EmployeeModalComponent } from './components/employees-table/employee-modal/employee-modal.component';
 
 
 /* SERVICE */
@@ -35,7 +38,8 @@ import { ModalComponent } from './components/modal/modal.component';
     AppComponent,
     CompaniesTableComponent,
     EmployeesTableComponent,
-    ModalComponent
+    CompanyModalComponent,
+    EmployeeModalComponent
   ],
   imports: [
     BrowserModule,
@@ -51,9 +55,11 @@ import { ModalComponent } from './components/modal/modal.component';
     MatIconModule,
     MatRippleModule,
     MatButtonModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatFormFieldModule,
   ],
-  entryComponents: [ModalComponent],
+  entryComponents: [CompanyModalComponent,EmployeeModalComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

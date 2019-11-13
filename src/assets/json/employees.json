@@ -1,7 +1,7 @@
 [{
     "first_name": "roni",
     "last_name": "chabra",
-    "id": "456987465",
+    "tz_id": "456987465",
     "role":"software engineer",
     "company":"apple",
     "manager":false,
@@ -10,7 +10,7 @@
   {
     "first_name": "tomer",
     "last_name": "cohen",
-    "id": "123456789",
+    "tz_id": "123456789",
     "role":"it",
     "company":"apple",
     "manager":false,
@@ -19,7 +19,7 @@
   {
     "first_name": "jhon",
     "last_name": "levi",
-    "id": "987654321",
+    "tz_id": "987654321",
     "role":"it",
     "company":"apple",
     "manager":true,
@@ -28,7 +28,7 @@
   {
     "first_name": "haim",
     "last_name": "siman-tov",
-    "id": "546123459",
+    "tz_id": "546123459",
     "role":"customer service",
     "company":"cellcom",
     "manager":true,
