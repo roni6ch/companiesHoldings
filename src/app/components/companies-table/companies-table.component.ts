@@ -26,14 +26,13 @@ export class CompaniesTableComponent implements OnInit {
 
   ngOnInit() {
     this.httpReq.getCompanies().subscribe(companies => {
-      console.table(companies);
       this.companies = companies;
       this.dataSource = new MatTableDataSource(companies);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     });
     this.httpReq.getSalaryTable().subscribe(salaryTable => {
-      console.table(salaryTable);
+      console.log(salaryTable);
     });
   }
 

@@ -24,7 +24,6 @@ export class EmployeesTableComponent implements OnInit {
 
   ngOnInit() {
     this.httpReq.getEmployees().subscribe(employees => {
-      console.table(employees);
       this.dataSource = new MatTableDataSource(employees);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -44,12 +43,11 @@ export class EmployeesTableComponent implements OnInit {
       data: {
         first_name: '',
         last_name : '',
-        tz_id: '',
+        tz_id: 0,
         role:'',
         company:'',
         manager:false,
         experience:0,
-        branch: '',
         action: "Add"
       }
     }).afterClosed().subscribe((result) => {
@@ -59,6 +57,6 @@ export class EmployeesTableComponent implements OnInit {
     });
   }
 
-  editEmployeeDialog
-  deleteEmployeeDialog
+  //editEmployeeDialog
+  //deleteEmployeeDialog
 }

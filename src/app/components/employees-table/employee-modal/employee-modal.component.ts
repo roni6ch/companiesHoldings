@@ -18,33 +18,10 @@ export class EmployeeModalComponent implements OnInit {
     });
   }
 
-  AddEmployee(first_name, last_name,tz_id, manager,experience, company){
-    this.httpReq.addEmployee(first_name, last_name,tz_id, manager,experience, company).subscribe(result => {
+  addEmployee(first_name, last_name,tz_id, role,manager,experience, company){
+    this.httpReq.addEmployee(first_name, last_name,tz_id,role, manager,experience, company).subscribe(result => {
       console.table(result);
       return result;
     });
-  }
-
-  deleteCompany(id: String) {
-    this.httpReq.deleteCompany(id).subscribe(result => {
-      console.table(result);
-      return result;
-    });
-  }
-
-  editCompany(_id = '', name: String, branch: String) {
-    if (_id !== '') {
-      //Edit Company
-      this.httpReq.editCompany(_id, name, branch).subscribe(result => {
-        console.table(result);
-        return result;
-      });
-    } else {
-      //Add new Company
-      this.httpReq.addCompany(name, branch).subscribe(result => {
-        console.table(result);
-        return result;
-      });
-    }
   }
 }

@@ -58,8 +58,8 @@
   mat-stroked-button color="primary"
     [mat-dialog-close]="true"
     (click)="data.action === 'Add' ? 
-        AddEmployee(first_name.value, last_name.value,tz_id.value, manager.checked,experience.value, company.value) : 
-        EditEmployee(first_name.value, last_name.value,tz_id.value, manager.checked,experience.value, company.value)"
+        addEmployee(first_name.value, last_name.value,tz_id.value, manager.checked,experience.value, company.value) : 
+        editEmployee(first_name.value, last_name.value,tz_id.value, manager.checked,experience.value, company.value)"
   >
     OK!
   </button>

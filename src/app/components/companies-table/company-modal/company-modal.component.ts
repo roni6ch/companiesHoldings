@@ -15,24 +15,21 @@ export class CompanyModalComponent {
 
   ngOnInit() { }
 
-  deleteCompany(id: String) {
+  deleteCompany(id: string) {
     this.httpReq.deleteCompany(id).subscribe(result => {
-      console.table(result);
       return result;
     });
   }
 
-  editCompany(_id = '', name: String, branch: String) {
+  editCompany(_id = '', name: string, branch: string) {
     if (_id !== '') {
       //Edit Company
       this.httpReq.editCompany(_id, name, branch).subscribe(result => {
-        console.table(result);
         return result;
       });
     } else {
       //Add new Company
       this.httpReq.addCompany(name, branch).subscribe(result => {
-        console.table(result);
         return result;
       });
     }
