@@ -1,6 +1,6 @@
 .employeesTableWrapper {
-    width:90%;
-    margin: 5% auto;
+  width: 90%;
+  margin: 5% auto;
   table {
     width: 100%;
   }
@@ -8,22 +8,21 @@
   th.mat-sort-header-sorted {
     color: black;
   }
-  tr.mat-header-row{
-      
+  tr.mat-header-row {
     background: #d4d4d4;
   }
-  
+
   button {
     color: #e91e63;
     background: transparent;
     border: 0;
     outline: 0;
   }
-  .actions , .addNewEmployee{
-    float:right;
+  .actions,
+  .addNewEmployee {
+    float: right;
   }
-  .mat-slide-toggle{
-
+  .mat-slide-toggle {
     pointer-events: none;
   }
 }

@@ -4,7 +4,7 @@ import { NgModule } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
 import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from "@angular/forms";
 import {
   MatPaginatorModule,
   MatInputModule,
@@ -17,7 +17,7 @@ import {
   MatButtonModule,
   MatSelectModule,
   MatSlideToggleModule,
-  MatFormFieldModule,
+  MatFormFieldModule
 } from "@angular/material";
 
 /*  LIBRERIES */
@@ -27,9 +27,8 @@ import "hammerjs";
 import { AppComponent } from "./app.component";
 import { CompaniesTableComponent } from "./components/companies-table/companies-table.component";
 import { EmployeesTableComponent } from "./components/employees-table/employees-table.component";
-import { CompanyModalComponent } from './components/companies-table/company-modal/company-modal.component';
-import { EmployeeModalComponent } from './components/employees-table/employee-modal/employee-modal.component';
-
+import { CompanyModalComponent } from "./components/companies-table/company-modal/company-modal.component";
+import { EmployeeModalComponent } from "./components/employees-table/employee-modal/employee-modal.component";
 
 /* SERVICE */
 /* PIPES */
@@ -59,9 +58,9 @@ import { EmployeeModalComponent } from './components/employees-table/employee-mo
     MatButtonModule,
     MatSelectModule,
     MatSlideToggleModule,
-    MatFormFieldModule,
+    MatFormFieldModule
   ],
-  entryComponents: [CompanyModalComponent,EmployeeModalComponent],
+  entryComponents: [CompanyModalComponent, EmployeeModalComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

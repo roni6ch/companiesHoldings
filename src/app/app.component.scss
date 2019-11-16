@@ -1,11 +1,13 @@
-*, html, body{
+*,
+html,
+body {
   text-transform: capitalize;
 }
 .fill-remaining-space {
-    // This fills the remaining space, by using flexbox. 
-    // Every toolbar row uses a flexbox row layout.
-    flex: 1 1 auto;
-  }
-  .centerText{
-    text-align: center;
-  }
+  // This fills the remaining space, by using flexbox.
+  // Every toolbar row uses a flexbox row layout.
+  flex: 1 1 auto;
+}
+.centerText {
+  text-align: center;
+}

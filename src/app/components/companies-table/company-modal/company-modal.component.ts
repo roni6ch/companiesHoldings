@@ -19,15 +19,13 @@ export class CompanyModalComponent {
     //branches loads once
     this.branches = this.httpReq.branches;
   }
-  
+
   onSubmit(e) {
     this.submitted = true;
-    if (this.data.action === "Add") 
-      this.addCompany(e);
+    if (this.data.action === "Add") this.addCompany(e);
     else this.editCompany(e);
   }
 
-  
   addCompany(company) {
     //Add new Company
     this.httpReq.addCompany(company).subscribe(
@@ -51,7 +49,7 @@ export class CompanyModalComponent {
         //TODO: REMOVE THIS PUSH AND SET ERROR
         let companies = this.httpReq.companiesSubject.getValue().map(v => {
           if (v._id === company._id) {
-            v.name = name;
+            v.name = company.name;
             v.branch = company.branch;
           }
           return v;
@@ -61,7 +59,7 @@ export class CompanyModalComponent {
       }
     );
   }
-  
+
   deleteCompany(_id: string) {
     this.httpReq.deleteCompany(_id).subscribe(
       result => this.httpReq.companiesSubject.next(result),
@@ -74,5 +72,4 @@ export class CompanyModalComponent {
       }
     );
   }
-
 }

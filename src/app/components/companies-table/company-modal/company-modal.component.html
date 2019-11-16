@@ -1,64 +1,86 @@
 <h1 mat-dialog-title>{{ data.action }} Company</h1>
 
 <div mat-dialog-content *ngIf="data.action === 'Add' || data.action === 'Edit'">
-    <form class="example-form" (ngSubmit)="onSubmit(companyForm.value)" #companyForm="ngForm">
-      
-      	<input 
-				matInput [hidden]="true"
-				[(ngModel)]="data._id" name="_id"
-        #_id="ngModel"
-        
-        />
-        <table class="example-full-width" cellspacing="0">
-            <tr>
-              <td>
-    <!-- Edit Company Name -->
-    
-        <mat-form-field class="example-full-width">
-      <input
-        matInput
-        placeholder="Company Name"
-        [(ngModel)]="data.name" name="name"
-				#name="ngModel" required
-      />
-    </mat-form-field>
-</td></tr>
+  <form
+    class="example-form"
+    (ngSubmit)="onSubmit(companyForm.value)"
+    #companyForm="ngForm"
+  >
+    <input
+      matInput
+      [hidden]="true"
+      [(ngModel)]="data._id"
+      name="_id"
+      #_id="ngModel"
+    />
+    <table class="example-full-width" cellspacing="0">
+      <tr>
+        <td>
+          <!-- Edit Company Name -->
 
-<tr><td>
+          <mat-form-field class="example-full-width">
+            <input
+              matInput
+              placeholder="Company Name"
+              [(ngModel)]="data.name"
+              name="name"
+              #name="ngModel"
+              required
+            />
+          </mat-form-field>
+        </td>
+      </tr>
 
-    <mat-form-field class="example-full-width">
-      <!-- Select Branch -->
-      <mat-label>Branch</mat-label>
-      <mat-select 
-      required
-      [(ngModel)]="data.branch" name="branch"
-      #branch="ngModel"
-      >
-        <mat-option *ngFor="let branch of branches" [value]="branch.toLowerCase()">
-          {{ branch }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </td></tr>
-</table>
-    <button type="submit" class="btn btn-success"  mat-stroked-button
-    color="primary"
-    [mat-dialog-close]="true"
-    [disabled]="!companyForm.form.valid">OK!</button>
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <!-- Select Branch -->
+            <mat-label>Branch</mat-label>
+            <mat-select
+              required
+              [(ngModel)]="data.branch"
+              name="branch"
+              #branch="ngModel"
+            >
+              <mat-option
+                *ngFor="let branch of branches"
+                [value]="branch.toLowerCase()"
+              >
+                {{ branch }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
 
-    <button mat-stroked-button  mat-dialog-close>Cancel</button>
+    <button
+      type="submit"
+      class="btn btn-success"
+      mat-stroked-button
+      color="primary"
+      [mat-dialog-close]="true"
+      [disabled]="!companyForm.form.valid"
+    >
+      OK!
+    </button>
+
+    <button mat-stroked-button mat-dialog-close>Cancel</button>
   </form>
-  
 </div>
 <div mat-dialog-content *ngIf="data.action === 'Delete'">
   <p>
     Are you sure you want to {{ data.action }}
     <span class="bold">{{ data.name }}</span> company?
   </p>
-  
-  <button mat-stroked-button  mat-dialog-close  [mat-dialog-close]="true"
-  (click)="deleteCompany(data._id)">
-  Yes!
+
+  <button
+    mat-stroked-button
+    mat-dialog-close
+    [mat-dialog-close]="true"
+    (click)="deleteCompany(data._id)"
+  >
+    Yes!
   </button>
-  <button mat-stroked-button  mat-dialog-close>No!</button>
+  <button mat-stroked-button mat-dialog-close>No!</button>
 </div>

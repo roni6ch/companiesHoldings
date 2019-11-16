@@ -16,22 +16,13 @@ export class EmployeeModalComponent implements OnInit {
     private httpReq: HttpRequestsService
   ) {}
   ngOnInit() {
-    this.httpReq
-      .getCompanies()
-      .toPromise()
-      .then(result => {
-        this.companies = [
-          ...new Set(this.httpReq.companiesSubject.getValue().map(v => v.name))
-        ];
-      });
-
+    this.companies = this.httpReq.companies;
     this.roles = Object.keys(this.httpReq.roles);
   }
 
   onSubmit(e) {
     this.submitted = true;
-    if (this.data.action === "Add") 
-      this.addEmployee(e);
+    if (this.data.action === "Add") this.addEmployee(e);
     else this.editEmployee(e);
   }
   addEmployee(employee) {

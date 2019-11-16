@@ -1,7 +1,6 @@
 export interface ISalaryTable {
-    branch: Role[]
+  branch: Role[];
 }
 interface Role {
-    role : number
+  role: number;
 }
-

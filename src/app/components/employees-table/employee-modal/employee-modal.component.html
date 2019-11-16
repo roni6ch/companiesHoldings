@@ -1,22 +1,29 @@
 <h1 mat-dialog-title>{{ data.action }} Employee</h1>
 
 <div mat-dialog-content *ngIf="data.action === 'Add' || data.action === 'Edit'">
-  <form class="example-form" (ngSubmit)="onSubmit(employeeForm.value)" #employeeForm="ngForm">
+  <form
+    class="example-form"
+    (ngSubmit)="onSubmit(employeeForm.value)"
+    #employeeForm="ngForm"
+  >
     <table class="example-full-width" cellspacing="0">
       <tr>
         <td>
-				<input 
-				matInput [hidden]="true"
-				[(ngModel)]="data._id" name="_id"
-				#_id="ngModel"
-			  />
+          <input
+            matInput
+            [hidden]="true"
+            [(ngModel)]="data._id"
+            name="_id"
+            #_id="ngModel"
+          />
           <!-- Employee Name -->
           <mat-form-field class="example-full-width">
             <input
               matInput
               placeholder="First Name"
-			  [(ngModel)]="data.first_name" name="first_name"
-			  #first_name="ngModel"
+              [(ngModel)]="data.first_name"
+              name="first_name"
+              #first_name="ngModel"
               required
             />
           </mat-form-field>
@@ -27,8 +34,9 @@
             <input
               matInput
               placeholder="Last Name"
-			  [(ngModel)]="data.last_name" name="last_name"
-			  #last_name="ngModel"
+              [(ngModel)]="data.last_name"
+              name="last_name"
+              #last_name="ngModel"
               required
             />
           </mat-form-field>
@@ -45,8 +53,9 @@
               matInput
               type="number"
               placeholder="ID"
-			  [(ngModel)]="data.tz_id" name="tz_id"
-			  #tz_id="ngModel"
+              [(ngModel)]="data.tz_id"
+              name="tz_id"
+              #tz_id="ngModel"
               required
             />
           </mat-form-field>
@@ -59,8 +68,9 @@
               type="number"
               matInput
               placeholder="0"
-			  [(ngModel)]="data.experience" name="experience"
-			  #experience="ngModel"
+              [(ngModel)]="data.experience"
+              name="experience"
+              #experience="ngModel"
             />
           </mat-form-field>
         </td>
@@ -70,15 +80,15 @@
     <table class="example-full-width" cellspacing="0">
       <tr>
         <td>
-          <!-- Employee TZ ID -->
           <!-- Employee Company Name -->
           <mat-form-field class="example-full-width">
             <mat-label>Company</mat-label>
-			<mat-select
-			
-			[(ngModel)]="data.company" name="company"
-			#company="ngModel"
-			 required>
+            <mat-select
+              [(ngModel)]="data.company"
+              name="company"
+              #company="ngModel"
+              required
+            >
               <mat-option
                 *ngFor="let company of companies"
                 [value]="company.toLowerCase()"
@@ -92,10 +102,12 @@
           <!-- Employee Company Role -->
           <mat-form-field class="example-full-width">
             <mat-label>Role</mat-label>
-			<mat-select 
-			
-			[(ngModel)]="data.role" name="role"
-			#role="ngModel" required>
+            <mat-select
+              [(ngModel)]="data.role"
+              name="role"
+              #role="ngModel"
+              required
+            >
               <mat-option
                 *ngFor="let role of roles"
                 [value]="role.toLowerCase()"
@@ -112,22 +124,28 @@
       <tr>
         <td>
           <!-- Employee Manager -->
-		  <mat-slide-toggle
-		  
-			[(ngModel)]="data.manager" name="manager"
-			#manager="ngModel"
-			
-			checked="{{ data.manager }}"
+          <mat-slide-toggle
+            [(ngModel)]="data.manager"
+            name="manager"
+            #manager="ngModel"
+            checked="{{ data.manager }}"
             >Manager?</mat-slide-toggle
           >
         </td>
       </tr>
     </table>
-	<button type="submit" class="btn btn-success"  mat-stroked-button
-	color="primary"
-	[mat-dialog-close]="true"
-	[disabled]="!employeeForm.form.valid">OK!</button>
-	<button mat-stroked-button mat-dialog-close>Cancel</button>
+
+    <button
+      type="submit"
+      class="btn btn-success"
+      mat-stroked-button
+      color="primary"
+      [mat-dialog-close]="true"
+      [disabled]="!employeeForm.form.valid"
+    >
+      OK!
+    </button>
+    <button mat-stroked-button mat-dialog-close>Cancel</button>
   </form>
 </div>
 <div mat-dialog-content *ngIf="data.action === 'Delete'">

@@ -62,7 +62,7 @@ export class EmployeesTableComponent implements OnInit {
       if (salaryTable[v["role"]] !== "undefined") {
         let manager = v.manager ? 5 : 0;
         let role = salaryTable[v["role"]];
-        let experience = + v.experience / salaryTable[v["role"]] * 10;
+        let experience = (+v.experience / salaryTable[v["role"]]) * 10;
         v.salary = Math.round(role + manager + experience);
       } else v.salary = 0;
     });

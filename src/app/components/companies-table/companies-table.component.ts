@@ -23,37 +23,37 @@ export class CompaniesTableComponent implements OnInit {
   constructor(private httpReq: HttpRequestsService, public dialog: MatDialog) {}
 
   ngOnInit() {
-
+    //listen to companies change
     this.httpReq.companiesSubject.subscribe(result => {
       this.dataSource = new MatTableDataSource(result);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     });
+    //get all companies
     this.httpReq
       .getCompanies()
       .toPromise()
       .then(result => {
         this.httpReq.companiesSubject.next(result);
         this.httpReq.companies = [
-          ...new Set(
-            this.httpReq.companiesSubject.getValue().map(v => v.name)
-          )
+          ...new Set(this.httpReq.companiesSubject.getValue().map(v => v.name))
         ];
       });
-      this.httpReq.getSalaryTable().subscribe(salaryTable => {
-        this.httpReq.branches = Object.keys( salaryTable )
-      });
+      //get salary json table in order to get all branches
+    this.httpReq.getSalaryTable().subscribe(salaryTable => {
+      this.httpReq.branches = Object.keys(salaryTable);
+    });
   }
   addCompany() {
     this.openDialog("", "", "", "Add");
   }
 
-  editCompany(row: ICompany) {
-    this.openDialog(row._id, row.name, row.branch, "Edit");
+  editCompany(company: ICompany) {
+    this.openDialog(company._id, company.name, company.branch, "Edit");
   }
 
-  deleteCompany(row: ICompany) {
-    this.openDialog(row._id, "", "", "Delete");
+  deleteCompany(company: ICompany) {
+    this.openDialog(company._id, "", "", "Delete");
   }
 
   openDialog(_id: string, name: string, branch: string, action: string) {

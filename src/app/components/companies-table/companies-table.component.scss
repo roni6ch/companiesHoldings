@@ -11,13 +11,14 @@
   tr.mat-header-row {
     background: #d4d4d4;
   }
-    button {
-      color: #e91e63;
-      background: transparent;
-      border: 0;
-      outline: 0;
-    }
-    .actions , .addNewCompany{
-      float:right;
-    }
+  button {
+    color: #e91e63;
+    background: transparent;
+    border: 0;
+    outline: 0;
+  }
+  .actions,
+  .addNewCompany {
+    float: right;
+  }
 }
