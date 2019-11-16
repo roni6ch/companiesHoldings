@@ -10,3 +10,18 @@
   .example-full-width {
     width: 100%;
   }
+  .mat-option-text ,.upperCaseFirstLetter{
+    
+    text-transform: capitalize !important;
+  }
+
+  .mat-button-base{
+    
+    margin-right: 10px;
+  }
+  td {
+    padding-right: 8px;
+  }
+  .manager{
+    margin-bottom:20px;
+  }

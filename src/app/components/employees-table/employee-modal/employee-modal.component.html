@@ -2,80 +2,114 @@
 
 <div mat-dialog-content *ngIf="data.action === 'Add' || data.action === 'Edit'">
   <form class="example-form">
-    <!-- Employee Name -->
-    <mat-form-field class="example-full-width">
-      <input
-        matInput
-        placeholder="First Name"
-        value="{{ data.first_name }}"
-        #first_name
-      />
-    </mat-form-field>
-    <!-- Employee Last Name -->
-    <mat-form-field class="example-full-width">
-      <input
-        matInput
-        placeholder="Last Name"
-        value="{{ data.last_name }}"
-        #last_name
-      />
-    </mat-form-field>
-    <!-- Employee TZ ID -->
-    <mat-form-field class="example-full-width">
-      <input
-        matInput
-        type="number"
-        placeholder="ID"
-        value="{{ data.tz_id }}"
-        #tz_id
-      />
-    </mat-form-field>
 
-    <!-- Employee Manager -->
-    <mat-slide-toggle #manager>Manager?</mat-slide-toggle>
-
-    <!-- Employee Experience -->
-    <mat-form-field appearance="legacy" class="example-full-width">
-      <mat-label>Experience Years</mat-label>
-      <input type="number" matInput placeholder="0" #experience />
-    </mat-form-field>
-
-    <!-- Employee Company Name -->
+      <table class="example-full-width" cellspacing="0"><tr>
+          <td>
+             <!-- Employee Name -->
     <mat-form-field class="example-full-width">
-      <mat-label>Company</mat-label>
-      <mat-select #company>
-        <mat-option
-          *ngFor="let company of companies"
-          [value]="company.name"
-        >
-          {{ company.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+        <input
+          matInput
+          placeholder="First Name"
+          value="{{ data.first_name }}"
+          #first_name
+        />
+      </mat-form-field>
+          </td>
+          <td>  <!-- Employee Last Name -->
+            <mat-form-field class="example-full-width">
+              <input
+                matInput
+                placeholder="Last Name"
+                value="{{ data.last_name }}"
+                #last_name
+              />
+            </mat-form-field></td>
+        </tr></table>
 
+   
+        <table class="example-full-width" cellspacing="0"><tr>
+            <td>
+         <!-- Employee TZ ID -->
+    <mat-form-field class="example-full-width">
+        <input
+          matInput
+          type="number"
+          placeholder="ID"
+          value="{{ data.tz_id }}"
+          #tz_id
+        />
+      </mat-form-field>
+            </td>
+            <td>  <!-- Employee Experience -->
+              <mat-form-field appearance="legacy" class="example-full-width">
+                <mat-label>Experience Years</mat-label>
+                <input type="number" matInput placeholder="0" #experience  value="{{ data.experience }}" />
+              </mat-form-field></td>
+          </tr></table>
+
+
+
+          <table class="example-full-width" cellspacing="0"><tr>
+              <td>
+           <!-- Employee TZ ID -->
+ <!-- Employee Company Name -->
+ <mat-form-field class="example-full-width">
+    <mat-label>Company</mat-label>
+    <mat-select #company [(value)]="data.company">
+      <mat-option
+        *ngFor="let company of companies"
+        [value]="company.toLowerCase()"
+      >
+        {{ company }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+              </td>
+              <td>  <!-- Employee Company Role -->
+                <mat-form-field class="example-full-width">
+                 <mat-label>Role</mat-label>
+                 <mat-select #role [(value)]="data.role">
+                   <mat-option
+                     *ngFor="let role of roles"
+                     [value]="role.toLowerCase()"
+                   >
+                     {{ role}}
+                   </mat-option>
+                 </mat-select>
+               </mat-form-field></td>
+            </tr></table>
+          
+            <table class="example-full-width manager" cellspacing="0"><tr>
+                <td> 
+                    <!-- Employee Manager -->
+                    <mat-slide-toggle #manager checked="{{data.manager}}" >Manager?</mat-slide-toggle></td>
+              </tr></table>
+              
+
+    
   </form>
   <button
   mat-stroked-button color="primary"
     [mat-dialog-close]="true"
     (click)="data.action === 'Add' ? 
-        addEmployee(first_name.value, last_name.value,tz_id.value, manager.checked,experience.value, company.value) : 
-        editEmployee(first_name.value, last_name.value,tz_id.value, manager.checked,experience.value, company.value)"
+        addEmployee(first_name.value, last_name.value,tz_id.value, role.value,manager.checked,experience.value, company.value) : 
+        editEmployee(data._id,first_name.value, last_name.value,tz_id.value, role.value, manager.checked,experience.value, company.value)"
   >
     OK!
   </button>
   <button mat-stroked-button  mat-dialog-close>Cancel</button>
 
 </div>
-<div mat-dialog-content *ngIf="data.action === 'DeleteEmployee'">
+<div mat-dialog-content *ngIf="data.action === 'Delete'">
   <p>
     Are you sure you want to {{ data.action }}
-    <span class="bold">{{ data.name }}</span> company?
+    <span class="bold upperCaseFirstLetter">{{ data.first_name }} {{ data.last_name }}</span> Employee?
   </p>
   <button
   mat-stroked-button color="primary"
     
     [mat-dialog-close]="true"
-    (click)="deleteEmployee(data.id)"
+    (click)="deleteEmployee(data._id)"
   >
     Yes!
   </button>

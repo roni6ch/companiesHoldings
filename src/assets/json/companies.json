@@ -1,9 +1,9 @@
 [{
   "_id":"1324",
-    "name": "Apple",
-    "branch": "Hi-Tech"
+    "name": "apple",
+    "branch": "hitech"
   },{
     "_id":"2123",
-    "name": "Cellcom",
-    "branch": "Communication"
+    "name": "cellcom",
+    "branch": "comunication"
   }]
