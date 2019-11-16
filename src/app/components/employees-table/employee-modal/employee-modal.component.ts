@@ -1,58 +1,84 @@
-import { Component, OnInit , Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpRequestsService } from '../../../services/http-requests.service';
+import { Component, OnInit, Inject } from "@angular/core";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { HttpRequestsService } from "../../../services/http-requests.service";
 
 @Component({
-  selector: 'app-employee-modal',
-  templateUrl: './employee-modal.component.html',
-  styleUrls: ['./employee-modal.component.scss']
+  selector: "app-employee-modal",
+  templateUrl: "./employee-modal.component.html",
+  styleUrls: ["./employee-modal.component.scss"]
 })
 export class EmployeeModalComponent implements OnInit {
   companies;
   roles;
-  constructor(@Inject(MAT_DIALOG_DATA) public data, private httpReq: HttpRequestsService) { }
+  submitted = false;
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data,
+    private httpReq: HttpRequestsService
+  ) {}
   ngOnInit() {
     this.httpReq
       .getCompanies()
       .toPromise()
       .then(result => {
         this.companies = [
-          ...new Set(this.httpReq.companiesSubject.getValue().map(v => v.name) )
+          ...new Set(this.httpReq.companiesSubject.getValue().map(v => v.name))
         ];
       });
-      
-    this.roles = this.httpReq.roles;
+
+    this.roles = Object.keys(this.httpReq.roles);
   }
 
-  addEmployee(first_name, last_name,tz_id, role,manager,experience, company){
+  onSubmit(e) {
+    this.submitted = true;
+    if (this.data.action === "Add") 
+      this.addEmployee(e);
+    else this.editEmployee(e);
+  }
+  addEmployee(employee) {
+    let salary = this.calculateSalary(
+      employee.role,
+      employee.manager,
+      employee.experience,
+      this.httpReq.roles
+    );
+    employee.salary = salary;
     //Add new Employee
-    this.httpReq.addEmployee(first_name, last_name,tz_id,role, manager,experience, company).subscribe(
+    this.httpReq.addEmployee(employee).subscribe(
       result => this.httpReq.employeesSubject.next([result]),
       err => {
         //TODO: REMOVE THIS PUSH AND SET ERROR
         let employees = this.httpReq.employeesSubject.getValue();
         let _id = String(+new Date());
-        employees.push({ _id, first_name, last_name,tz_id,role, company,manager,experience });
+        employee._id = _id;
+        employees.push(employee);
         this.httpReq.employeesSubject.next(employees);
       }
     );
   }
 
-  editEmployee(_id,first_name, last_name,tz_id, role,manager,experience, company) {
+  editEmployee(employee) {
+    let salary = this.calculateSalary(
+      employee.role,
+      employee.manager,
+      employee.experience,
+      this.httpReq.roles
+    );
+    employee.salary = employee;
     //Edit Company
-    this.httpReq.editEmployee(_id,first_name, last_name,tz_id, role,manager,experience, company).subscribe(
+    this.httpReq.editEmployee(employee).subscribe(
       result => this.httpReq.employeesSubject.next(result),
       err => {
         //TODO: REMOVE THIS PUSH AND SET ERROR
         let employees = this.httpReq.employeesSubject.getValue().map(v => {
-          if (v._id === _id) {
-            v.first_name = first_name;
-            v.last_name = last_name;
-            v.tz_id = tz_id;
-            v.role = role;
-            v.manager = manager;
-            v.experience = experience;
-            v.company = company;
+          if (v._id === employee._id) {
+            v.first_name = employee.first_name;
+            v.last_name = employee.last_name;
+            v.tz_id = employee.tz_id;
+            v.role = employee.role;
+            v.manager = employee.manager;
+            v.experience = employee.experience;
+            v.company = employee.company;
+            v.salary = salary;
           }
           return v;
         });
@@ -75,4 +101,15 @@ export class EmployeeModalComponent implements OnInit {
     );
   }
 
+  calculateSalary(role, manager, experience, salaryTable) {
+    //calculate salary
+    let salary = 0;
+    if (salaryTable[role] !== "undefined") {
+      let isManager = manager ? 5 : 0;
+      let employeeRole = salaryTable[role];
+      let experienceYears = (+experience / salaryTable[role]) * 10;
+      salary = Math.round(employeeRole + isManager + experienceYears);
+    }
+    return salary;
+  }
 }

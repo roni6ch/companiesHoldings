@@ -1,117 +1,150 @@
 <h1 mat-dialog-title>{{ data.action }} Employee</h1>
 
 <div mat-dialog-content *ngIf="data.action === 'Add' || data.action === 'Edit'">
-  <form class="example-form">
+  <form class="example-form" (ngSubmit)="onSubmit(employeeForm.value)" #employeeForm="ngForm">
+    <table class="example-full-width" cellspacing="0">
+      <tr>
+        <td>
+				<input 
+				matInput [hidden]="true"
+				[(ngModel)]="data._id" name="_id"
+				#_id="ngModel"
+			  />
+          <!-- Employee Name -->
+          <mat-form-field class="example-full-width">
+            <input
+              matInput
+              placeholder="First Name"
+			  [(ngModel)]="data.first_name" name="first_name"
+			  #first_name="ngModel"
+              required
+            />
+          </mat-form-field>
+        </td>
+        <td>
+          <!-- Employee Last Name -->
+          <mat-form-field class="example-full-width">
+            <input
+              matInput
+              placeholder="Last Name"
+			  [(ngModel)]="data.last_name" name="last_name"
+			  #last_name="ngModel"
+              required
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
 
-      <table class="example-full-width" cellspacing="0"><tr>
-          <td>
-             <!-- Employee Name -->
-    <mat-form-field class="example-full-width">
-        <input
-          matInput
-          placeholder="First Name"
-          value="{{ data.first_name }}"
-          #first_name
-        />
-      </mat-form-field>
-          </td>
-          <td>  <!-- Employee Last Name -->
-            <mat-form-field class="example-full-width">
-              <input
-                matInput
-                placeholder="Last Name"
-                value="{{ data.last_name }}"
-                #last_name
-              />
-            </mat-form-field></td>
-        </tr></table>
+    <table class="example-full-width" cellspacing="0">
+      <tr>
+        <td>
+          <!-- Employee TZ ID -->
+          <mat-form-field class="example-full-width">
+            <input
+              matInput
+              type="number"
+              placeholder="ID"
+			  [(ngModel)]="data.tz_id" name="tz_id"
+			  #tz_id="ngModel"
+              required
+            />
+          </mat-form-field>
+        </td>
+        <td>
+          <!-- Employee Experience -->
+          <mat-form-field appearance="legacy" class="example-full-width">
+            <mat-label>Experience Years</mat-label>
+            <input
+              type="number"
+              matInput
+              placeholder="0"
+			  [(ngModel)]="data.experience" name="experience"
+			  #experience="ngModel"
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
 
-   
-        <table class="example-full-width" cellspacing="0"><tr>
-            <td>
-         <!-- Employee TZ ID -->
-    <mat-form-field class="example-full-width">
-        <input
-          matInput
-          type="number"
-          placeholder="ID"
-          value="{{ data.tz_id }}"
-          #tz_id
-        />
-      </mat-form-field>
-            </td>
-            <td>  <!-- Employee Experience -->
-              <mat-form-field appearance="legacy" class="example-full-width">
-                <mat-label>Experience Years</mat-label>
-                <input type="number" matInput placeholder="0" #experience  value="{{ data.experience }}" />
-              </mat-form-field></td>
-          </tr></table>
+    <table class="example-full-width" cellspacing="0">
+      <tr>
+        <td>
+          <!-- Employee TZ ID -->
+          <!-- Employee Company Name -->
+          <mat-form-field class="example-full-width">
+            <mat-label>Company</mat-label>
+			<mat-select
+			
+			[(ngModel)]="data.company" name="company"
+			#company="ngModel"
+			 required>
+              <mat-option
+                *ngFor="let company of companies"
+                [value]="company.toLowerCase()"
+              >
+                {{ company }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <!-- Employee Company Role -->
+          <mat-form-field class="example-full-width">
+            <mat-label>Role</mat-label>
+			<mat-select 
+			
+			[(ngModel)]="data.role" name="role"
+			#role="ngModel" required>
+              <mat-option
+                *ngFor="let role of roles"
+                [value]="role.toLowerCase()"
+              >
+                {{ role }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
 
-
-
-          <table class="example-full-width" cellspacing="0"><tr>
-              <td>
-           <!-- Employee TZ ID -->
- <!-- Employee Company Name -->
- <mat-form-field class="example-full-width">
-    <mat-label>Company</mat-label>
-    <mat-select #company [(value)]="data.company">
-      <mat-option
-        *ngFor="let company of companies"
-        [value]="company.toLowerCase()"
-      >
-        {{ company }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-              </td>
-              <td>  <!-- Employee Company Role -->
-                <mat-form-field class="example-full-width">
-                 <mat-label>Role</mat-label>
-                 <mat-select #role [(value)]="data.role">
-                   <mat-option
-                     *ngFor="let role of roles"
-                     [value]="role.toLowerCase()"
-                   >
-                     {{ role}}
-                   </mat-option>
-                 </mat-select>
-               </mat-form-field></td>
-            </tr></table>
-          
-            <table class="example-full-width manager" cellspacing="0"><tr>
-                <td> 
-                    <!-- Employee Manager -->
-                    <mat-slide-toggle #manager checked="{{data.manager}}" >Manager?</mat-slide-toggle></td>
-              </tr></table>
-              
-
-    
+    <table class="example-full-width manager" cellspacing="0">
+      <tr>
+        <td>
+          <!-- Employee Manager -->
+		  <mat-slide-toggle
+		  
+			[(ngModel)]="data.manager" name="manager"
+			#manager="ngModel"
+			
+			checked="{{ data.manager }}"
+            >Manager?</mat-slide-toggle
+          >
+        </td>
+      </tr>
+    </table>
+	<button type="submit" class="btn btn-success"  mat-stroked-button
+	color="primary"
+	[mat-dialog-close]="true"
+	[disabled]="!employeeForm.form.valid">OK!</button>
+	<button mat-stroked-button mat-dialog-close>Cancel</button>
   </form>
-  <button
-  mat-stroked-button color="primary"
-    [mat-dialog-close]="true"
-    (click)="data.action === 'Add' ? 
-        addEmployee(first_name.value, last_name.value,tz_id.value, role.value,manager.checked,experience.value, company.value) : 
-        editEmployee(data._id,first_name.value, last_name.value,tz_id.value, role.value, manager.checked,experience.value, company.value)"
-  >
-    OK!
-  </button>
-  <button mat-stroked-button  mat-dialog-close>Cancel</button>
-
 </div>
 <div mat-dialog-content *ngIf="data.action === 'Delete'">
   <p>
     Are you sure you want to {{ data.action }}
-    <span class="bold upperCaseFirstLetter">{{ data.first_name }} {{ data.last_name }}</span> Employee?
+    <span class="bold upperCaseFirstLetter"
+      >{{ data.first_name }} {{ data.last_name }}</span
+    >
+    Employee?
   </p>
   <button
-  mat-stroked-button color="primary"
-    
+    mat-stroked-button
+    color="primary"
     [mat-dialog-close]="true"
     (click)="deleteEmployee(data._id)"
   >
     Yes!
   </button>
-  <button mat-stroked-button  mat-dialog-close>No!</button>
+  <button mat-stroked-button mat-dialog-close>No!</button>
 </div>

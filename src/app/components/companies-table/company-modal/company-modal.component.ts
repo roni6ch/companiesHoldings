@@ -9,6 +9,7 @@ import { HttpRequestsService } from "../../../services/http-requests.service";
 })
 export class CompanyModalComponent {
   branches;
+  submitted = false;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
     private httpReq: HttpRequestsService
@@ -18,32 +19,40 @@ export class CompanyModalComponent {
     //branches loads once
     this.branches = this.httpReq.branches;
   }
+  
+  onSubmit(e) {
+    this.submitted = true;
+    if (this.data.action === "Add") 
+      this.addCompany(e);
+    else this.editCompany(e);
+  }
 
   
-  addCompany(_id = "", name: string, branch: string) {
+  addCompany(company) {
     //Add new Company
-    this.httpReq.addCompany(name, branch).subscribe(
+    this.httpReq.addCompany(company).subscribe(
       result => this.httpReq.companiesSubject.next([result]),
       err => {
         //TODO: REMOVE THIS PUSH AND SET ERROR
         let companies = this.httpReq.companiesSubject.getValue();
         let _id = String(+new Date());
-        companies.push({ _id , name, branch });
+        company._id = _id;
+        companies.push(company);
         this.httpReq.companiesSubject.next(companies);
       }
     );
   }
 
-  editCompany(_id: string, name: string, branch: string) {
+  editCompany(company) {
     //Edit Company
-    this.httpReq.editCompany(_id, name, branch).subscribe(
+    this.httpReq.editCompany(company).subscribe(
       result => this.httpReq.companiesSubject.next(result),
       err => {
         //TODO: REMOVE THIS PUSH AND SET ERROR
         let companies = this.httpReq.companiesSubject.getValue().map(v => {
-          if (v._id === _id) {
+          if (v._id === company._id) {
             v.name = name;
-            v.branch = branch;
+            v.branch = company.branch;
           }
           return v;
         });

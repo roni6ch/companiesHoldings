@@ -25,11 +25,11 @@ export class HttpRequestsService {
   getCompanies() {
     return this.http.get<ICompany[]>(this._companies_url);
   }
-  addCompany(name: string,branch: string): Observable<ICompany> {
-    return this.http.post<ICompany>(this._server_url + '/addCompany', {name,branch});
+  addCompany(company): Observable<ICompany> {
+    return this.http.post<ICompany>(this._server_url + '/addCompany', company);
   }
-  editCompany(id: string,name: string,branch: string): Observable<ICompany[]>{
-    return this.http.post<ICompany[]>(this._server_url + '/editCompany', {id,name,branch});
+  editCompany(company): Observable<ICompany[]>{
+    return this.http.post<ICompany[]>(this._server_url + '/editCompany', company);
   }
   deleteCompany(id: string): Observable<ICompany[]> {
     return this.http.post<ICompany[]>(this._server_url + '/deleteCompany', id);
@@ -39,11 +39,11 @@ export class HttpRequestsService {
   getEmployees() {
     return this.http.get<IEmployee[]>(this._employees_url);
   }
-  addEmployee(first_name:string, last_name:string,tz_id:number,role:string,  manager:boolean,experience:number,company:string ): Observable<IEmployee> {
-    return this.http.post<IEmployee>(this._server_url + '/addEmployee', {first_name, last_name,tz_id, role,manager,experience,company});
+  addEmployee(employee): Observable<IEmployee> {
+    return this.http.post<IEmployee>(this._server_url + '/addEmployee', employee);
   }
-  editEmployee(_id:string,first_name:string, last_name:string,tz_id:number,role:string, manager:boolean,experience:number,company:string ): Observable<IEmployee[]> {
-    return this.http.post<IEmployee[]>(this._server_url + '/editEmployee', {_id,first_name, last_name,tz_id, role, manager,experience, company});
+  editEmployee(employee): Observable<IEmployee[]> {
+    return this.http.post<IEmployee[]>(this._server_url + '/editEmployee', employee);
   }
   deleteEmployee(_id: string): Observable<IEmployee[]> {
     return this.http.post<IEmployee[]>(this._server_url + '/deleteEmployee', _id);

@@ -1,37 +1,54 @@
 <h1 mat-dialog-title>{{ data.action }} Company</h1>
 
 <div mat-dialog-content *ngIf="data.action === 'Add' || data.action === 'Edit'">
-  <form class="example-form">
+    <form class="example-form" (ngSubmit)="onSubmit(companyForm.value)" #companyForm="ngForm">
+      
+      	<input 
+				matInput [hidden]="true"
+				[(ngModel)]="data._id" name="_id"
+        #_id="ngModel"
+        
+        />
+        <table class="example-full-width" cellspacing="0">
+            <tr>
+              <td>
     <!-- Edit Company Name -->
-    <mat-form-field class="example-full-width">
+    
+        <mat-form-field class="example-full-width">
       <input
         matInput
         placeholder="Company Name"
-        value="{{ data.name }}"
-        #company_name
+        [(ngModel)]="data.name" name="name"
+				#name="ngModel" required
       />
     </mat-form-field>
+</td></tr>
+
+<tr><td>
+
     <mat-form-field class="example-full-width">
       <!-- Select Branch -->
       <mat-label>Branch</mat-label>
-      <mat-select [(value)]="data.branch">
-        <mat-option *ngFor="let branch of branches" [value]="branch">
+      <mat-select 
+      required
+      [(ngModel)]="data.branch" name="branch"
+      #branch="ngModel"
+      >
+        <mat-option *ngFor="let branch of branches" [value]="branch.toLowerCase()">
           {{ branch }}
         </mat-option>
       </mat-select>
     </mat-form-field>
+  </td></tr>
+</table>
+    <button type="submit" class="btn btn-success"  mat-stroked-button
+    color="primary"
+    [mat-dialog-close]="true"
+    [disabled]="!companyForm.form.valid">OK!</button>
+
+    <button mat-stroked-button  mat-dialog-close>Cancel</button>
   </form>
-  <button mat-stroked-button  mat-dialog-close 
-  *ngIf="data.action === 'Add'"
-  [mat-dialog-close]="true"
-  (click)="addCompany(data._id, company_name.value, data.branch)">OK!</button>
   
-  <button mat-stroked-button  mat-dialog-close 
-  *ngIf="data.action === 'Edit'"
-  [mat-dialog-close]="true"
-  (click)="editCompany(data._id, company_name.value, data.branch)">  OK!</button>
-  
-  <button mat-stroked-button  mat-dialog-close>Cancel</button>
 </div>
 <div mat-dialog-content *ngIf="data.action === 'Delete'">
   <p>

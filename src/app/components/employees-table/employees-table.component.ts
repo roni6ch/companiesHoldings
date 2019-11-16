@@ -40,22 +40,34 @@ export class EmployeesTableComponent implements OnInit {
     this.httpReq
       .getEmployees()
       .toPromise()
-      .then(result => {
-        this.httpReq.employeesSubject.next(result);
-      });
-
-    this.httpReq
-      .getSalaryTable()
-      .toPromise()
-      .then(salaryTable => {
-        let roles = [];
-        for (let role in salaryTable) {
-          Object.assign(roles, salaryTable[role]);
-        }
-        this.httpReq.roles = Object.keys( roles );
+      .then(employees => {
+        this.httpReq
+          .getSalaryTable()
+          .toPromise()
+          .then(salaryTable => {
+            let roles = [];
+            for (let role in salaryTable) {
+              Object.assign(roles, salaryTable[role]);
+            }
+            let employeesWithSalary = this.calculateSalary(employees, roles);
+            this.httpReq.roles = roles;
+            this.httpReq.employeesSubject.next(employeesWithSalary);
+          });
       });
   }
 
+  calculateSalary(employees, salaryTable) {
+    //calculate salary
+    employees.map(v => {
+      if (salaryTable[v["role"]] !== "undefined") {
+        let manager = v.manager ? 5 : 0;
+        let role = salaryTable[v["role"]];
+        let experience = + v.experience / salaryTable[v["role"]] * 10;
+        v.salary = Math.round(role + manager + experience);
+      } else v.salary = 0;
+    });
+    return employees;
+  }
   addEmployee() {
     this.openDialog("", "", "", 0, "", "", false, 0, "Add");
   }
@@ -73,7 +85,17 @@ export class EmployeesTableComponent implements OnInit {
     );
   }
   deleteEmployee(row) {
-    this.openDialog(row._id, row.first_name, row.last_name, 0, "", "", false, 0, "Delete");
+    this.openDialog(
+      row._id,
+      row.first_name,
+      row.last_name,
+      0,
+      "",
+      "",
+      false,
+      0,
+      "Delete"
+    );
   }
 
   openDialog(

@@ -7,5 +7,6 @@ export interface IEmployee {
     company: string;
     manager: boolean;
     experience: number;
+    salary:number;
 }
 
