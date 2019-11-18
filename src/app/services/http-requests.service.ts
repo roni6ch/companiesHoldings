@@ -13,9 +13,10 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 export class HttpRequestsService {
 
   private _salary_url = "./assets/json/salary_table.json";
-  private _employees_url = "./assets/json/employees.json";
-  private _companies_url = "./assets/json/companies.json";
-  private _server_url = "";
+  //private _employees_url = "./assets/json/employees.json";
+  //private _companies_url = "./assets/json/companies.json";
+  private _companies_url = "http://localhost:3000/companies";
+  private _employees_url = "http://localhost:3000/employees";
   public companiesSubject = new BehaviorSubject<ICompany[]>([]);
   public employeesSubject = new BehaviorSubject<IEmployee[]>([]); 
   branches = []; companies = []; roles = [];
@@ -26,13 +27,13 @@ export class HttpRequestsService {
     return this.http.get<ICompany[]>(this._companies_url);
   }
   addCompany(company): Observable<ICompany> {
-    return this.http.post<ICompany>(this._server_url + '/addCompany', company);
+    return this.http.post<ICompany>(this._companies_url,company);
   }
   editCompany(company): Observable<ICompany[]>{
-    return this.http.post<ICompany[]>(this._server_url + '/editCompany', company);
+    return this.http.patch<ICompany[]>(this._companies_url + company._id, company);
   }
   deleteCompany(id: string): Observable<ICompany[]> {
-    return this.http.post<ICompany[]>(this._server_url + '/deleteCompany', id);
+    return this.http.delete<ICompany[]>(this._companies_url + id);
   }
 
   /* Employee */
@@ -40,13 +41,13 @@ export class HttpRequestsService {
     return this.http.get<IEmployee[]>(this._employees_url);
   }
   addEmployee(employee): Observable<IEmployee> {
-    return this.http.post<IEmployee>(this._server_url + '/addEmployee', employee);
+    return this.http.post<IEmployee>(this._employees_url + '/addEmployee', employee);
   }
   editEmployee(employee): Observable<IEmployee[]> {
-    return this.http.post<IEmployee[]>(this._server_url + '/editEmployee', employee);
+    return this.http.post<IEmployee[]>(this._employees_url + '/editEmployee', employee);
   }
   deleteEmployee(_id: string): Observable<IEmployee[]> {
-    return this.http.post<IEmployee[]>(this._server_url + '/deleteEmployee', _id);
+    return this.http.post<IEmployee[]>(this._employees_url + '/deleteEmployee', _id);
   }
 
   getSalaryTable(): Observable<ISalaryTable[]> {

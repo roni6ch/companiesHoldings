@@ -29,14 +29,13 @@ export class CompanyModalComponent {
   addCompany(company) {
     //Add new Company
     this.httpReq.addCompany(company).subscribe(
-      result => this.httpReq.companiesSubject.next([result]),
+      result => {
+        result.name = company.name;
+        result.branch = company.branch;
+        this.httpReq.companiesSubject.next(this.httpReq.companiesSubject.getValue().concat([result]));
+      },
       err => {
-        //TODO: REMOVE THIS PUSH AND SET ERROR
-        let companies = this.httpReq.companiesSubject.getValue();
-        let _id = String(+new Date());
-        company._id = _id;
-        companies.push(company);
-        this.httpReq.companiesSubject.next(companies);
+       console.log(err);
       }
     );
   }
@@ -44,31 +43,35 @@ export class CompanyModalComponent {
   editCompany(company) {
     //Edit Company
     this.httpReq.editCompany(company).subscribe(
-      result => this.httpReq.companiesSubject.next(result),
+      result => {
+        if (result) {
+          let companies = this.httpReq.companiesSubject.getValue().map(v => {
+            if (v._id === company._id) {
+              v.name = company.name;
+              v.branch = company.branch;
+            }
+            return v;
+          });
+  
+          this.httpReq.companiesSubject.next(companies);
+         }
+       },
       err => {
-        //TODO: REMOVE THIS PUSH AND SET ERROR
-        let companies = this.httpReq.companiesSubject.getValue().map(v => {
-          if (v._id === company._id) {
-            v.name = company.name;
-            v.branch = company.branch;
-          }
-          return v;
-        });
-
-        this.httpReq.companiesSubject.next(companies);
+        console.log(err);
       }
     );
   }
 
   deleteCompany(_id: string) {
     this.httpReq.deleteCompany(_id).subscribe(
-      result => this.httpReq.companiesSubject.next(result),
-      err => {
-        //TODO: REMOVE THIS PUSH AND SET ERROR
+      result => {
         let companies = this.httpReq.companiesSubject.getValue().filter(v => {
           return v._id !== _id;
         });
         this.httpReq.companiesSubject.next(companies);
+      },
+      err => {
+        console.log(err);
       }
     );
   }
