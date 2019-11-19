@@ -12,11 +12,11 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 })
 export class HttpRequestsService {
 
-  private _salary_url = "./assets/json/salary_table.json";
+  private _salary_url = "http://localhost:3000/salaryTable/";
   //private _employees_url = "./assets/json/employees.json";
   //private _companies_url = "./assets/json/companies.json";
-  private _companies_url = "http://localhost:3000/companies";
-  private _employees_url = "http://localhost:3000/employees";
+  private _companies_url = "http://localhost:3000/companies/";
+  private _employees_url = "http://localhost:3000/employees/";
   public companiesSubject = new BehaviorSubject<ICompany[]>([]);
   public employeesSubject = new BehaviorSubject<IEmployee[]>([]); 
   branches = []; companies = []; roles = [];
@@ -41,13 +41,13 @@ export class HttpRequestsService {
     return this.http.get<IEmployee[]>(this._employees_url);
   }
   addEmployee(employee): Observable<IEmployee> {
-    return this.http.post<IEmployee>(this._employees_url + '/addEmployee', employee);
+    return this.http.post<IEmployee>(this._employees_url, employee);
   }
   editEmployee(employee): Observable<IEmployee[]> {
-    return this.http.post<IEmployee[]>(this._employees_url + '/editEmployee', employee);
+    return this.http.patch<IEmployee[]>(this._employees_url + employee._id, employee);
   }
   deleteEmployee(_id: string): Observable<IEmployee[]> {
-    return this.http.post<IEmployee[]>(this._employees_url + '/deleteEmployee', _id);
+    return this.http.delete<IEmployee[]>(this._employees_url + _id);
   }
 
   getSalaryTable(): Observable<ISalaryTable[]> {

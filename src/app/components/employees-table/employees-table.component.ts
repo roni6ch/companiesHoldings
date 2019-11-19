@@ -5,6 +5,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { HttpRequestsService } from "../../services/http-requests.service";
 import { MatDialog } from "@angular/material/dialog";
 import { EmployeeModalComponent } from "./employee-modal/employee-modal.component";
+import _ from 'lodash';
 
 @Component({
   selector: "app-employees-table",
@@ -45,12 +46,8 @@ export class EmployeesTableComponent implements OnInit {
           .getSalaryTable()
           .toPromise()
           .then(salaryTable => {
-            let roles = [];
-            for (let role in salaryTable) {
-              Object.assign(roles, salaryTable[role]);
-            }
-            let employeesWithSalary = this.calculateSalary(employees, roles);
-            this.httpReq.roles = roles;
+            let employeesWithSalary = this.calculateSalary(employees, salaryTable[0]);
+            this.httpReq.roles = salaryTable;
             this.httpReq.employeesSubject.next(employeesWithSalary);
           });
       });

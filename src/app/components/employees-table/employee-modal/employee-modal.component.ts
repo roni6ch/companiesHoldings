@@ -14,7 +14,7 @@ export class EmployeeModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
     private httpReq: HttpRequestsService
-  ) {}
+  ) { }
   ngOnInit() {
     this.companies = this.httpReq.companies;
     this.roles = Object.keys(this.httpReq.roles);
@@ -35,14 +35,12 @@ export class EmployeeModalComponent implements OnInit {
     employee.salary = salary;
     //Add new Employee
     this.httpReq.addEmployee(employee).subscribe(
-      result => this.httpReq.employeesSubject.next([result]),
+      result => {
+        employee._id = result._id;
+        this.httpReq.employeesSubject.next(this.httpReq.employeesSubject.getValue().concat([employee]));
+      },
       err => {
-        //TODO: REMOVE THIS PUSH AND SET ERROR
-        let employees = this.httpReq.employeesSubject.getValue();
-        let _id = String(+new Date());
-        employee._id = _id;
-        employees.push(employee);
-        this.httpReq.employeesSubject.next(employees);
+        console.log(err);
       }
     );
   }
@@ -54,40 +52,46 @@ export class EmployeeModalComponent implements OnInit {
       employee.experience,
       this.httpReq.roles
     );
-    employee.salary = employee;
+    employee.salary = salary;
     //Edit Company
     this.httpReq.editEmployee(employee).subscribe(
-      result => this.httpReq.employeesSubject.next(result),
-      err => {
-        //TODO: REMOVE THIS PUSH AND SET ERROR
-        let employees = this.httpReq.employeesSubject.getValue().map(v => {
-          if (v._id === employee._id) {
-            v.first_name = employee.first_name;
-            v.last_name = employee.last_name;
-            v.tz_id = employee.tz_id;
-            v.role = employee.role;
-            v.manager = employee.manager;
-            v.experience = employee.experience;
-            v.company = employee.company;
-            v.salary = salary;
-          }
-          return v;
-        });
+      result => {
+        if (result) {
+          let employees = this.httpReq.employeesSubject.getValue().map(v => {
+            if (v._id === employee._id) {
+              v.first_name = employee.first_name;
+              v.last_name = employee.last_name;
+              v.tz_id = employee.tz_id;
+              v.role = employee.role;
+              v.manager = employee.manager;
+              v.experience = employee.experience;
+              v.company = employee.company;
+              v.salary = salary;
+            }
+            return v;
+          });
 
-        this.httpReq.employeesSubject.next(employees);
+          this.httpReq.employeesSubject.next(employees);
+        }
+      },
+      err => {
+        console.log(err);
       }
     );
   }
 
   deleteEmployee(_id: string) {
     this.httpReq.deleteEmployee(_id).subscribe(
-      result => this.httpReq.employeesSubject.next(result),
-      err => {
-        //TODO: REMOVE THIS PUSH AND SET ERROR
+      result => {
+        if (result){
         let employees = this.httpReq.employeesSubject.getValue().filter(v => {
           return v._id !== _id;
         });
         this.httpReq.employeesSubject.next(employees);
+      }
+      },
+      err => {
+        console.log(err);
       }
     );
   }
