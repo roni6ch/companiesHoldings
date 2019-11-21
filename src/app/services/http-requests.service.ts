@@ -11,10 +11,10 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
   providedIn: 'root'
 })
 export class HttpRequestsService {
-
-  private _salary_url = "http://localhost:3000/salaryTable/";
+  //private _salary_url = "http://localhost:3000/salaryTable/";
   //private _employees_url = "./assets/json/employees.json";
   //private _companies_url = "./assets/json/companies.json";
+  private _salary_url = "./assets/json/salary_table.json/";
   private _companies_url = "http://localhost:3000/companies/";
   private _employees_url = "http://localhost:3000/employees/";
   public companiesSubject = new BehaviorSubject<ICompany[]>([]);
@@ -29,11 +29,11 @@ export class HttpRequestsService {
   addCompany(company): Observable<ICompany> {
     return this.http.post<ICompany>(this._companies_url,company);
   }
-  editCompany(company): Observable<ICompany[]>{
-    return this.http.patch<ICompany[]>(this._companies_url + company._id, company);
+  editCompany(company): Observable<ICompany>{
+    return this.http.patch<ICompany>(this._companies_url + company._id, company);
   }
-  deleteCompany(id: string): Observable<ICompany[]> {
-    return this.http.delete<ICompany[]>(this._companies_url + id);
+  deleteCompany(id: string): Observable<ICompany> {
+    return this.http.delete<ICompany>(this._companies_url + id);
   }
 
   /* Employee */
@@ -43,15 +43,15 @@ export class HttpRequestsService {
   addEmployee(employee): Observable<IEmployee> {
     return this.http.post<IEmployee>(this._employees_url, employee);
   }
-  editEmployee(employee): Observable<IEmployee[]> {
-    return this.http.patch<IEmployee[]>(this._employees_url + employee._id, employee);
+  editEmployee(employee): Observable<IEmployee> {
+    return this.http.patch<IEmployee>(this._employees_url + employee._id, employee);
   }
-  deleteEmployee(_id: string): Observable<IEmployee[]> {
-    return this.http.delete<IEmployee[]>(this._employees_url + _id);
+  deleteEmployee(_id: string): Observable<IEmployee> {
+    return this.http.delete<IEmployee>(this._employees_url + _id);
   }
 
-  getSalaryTable(): Observable<ISalaryTable[]> {
-    return this.http.get<ISalaryTable[]>(this._salary_url);
+  getSalaryTable(): Observable<ISalaryTable> {
+    return this.http.get<ISalaryTable>(this._salary_url);
   }
 
   handleError(arg0: string): any {

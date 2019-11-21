@@ -23,7 +23,12 @@ export class CompaniesTableComponent implements OnInit {
   constructor(private httpReq: HttpRequestsService, public dialog: MatDialog) {}
 
   ngOnInit() {
-    //listen to companies change
+      //get all branches from salary table
+      this.httpReq.getSalaryTable().subscribe(salaryTable => {
+        this.httpReq.branches = Object.keys(salaryTable);
+      });
+
+    //companies change listener
     this.httpReq.companiesSubject.subscribe(result => {
       this.dataSource = new MatTableDataSource(result);
       this.dataSource.sort = this.sort;
@@ -35,14 +40,7 @@ export class CompaniesTableComponent implements OnInit {
       .toPromise()
       .then(result => {
         this.httpReq.companiesSubject.next(result);
-        this.httpReq.companies = [
-          ...new Set(this.httpReq.companiesSubject.getValue().map(v => v.name))
-        ];
       });
-      //get salary json table in order to get all branches
-    this.httpReq.getSalaryTable().subscribe(salaryTable => {
-      this.httpReq.branches = Object.keys(salaryTable);
-    });
   }
   addCompany() {
     this.openDialog("", "", "", "Add");

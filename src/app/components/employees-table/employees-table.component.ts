@@ -29,7 +29,7 @@ export class EmployeesTableComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private httpReq: HttpRequestsService, public dialog: MatDialog) {}
+  constructor(private httpReq: HttpRequestsService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.httpReq.employeesSubject.subscribe(result => {
@@ -38,6 +38,7 @@ export class EmployeesTableComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     });
 
+    //get employees and calculate salary
     this.httpReq
       .getEmployees()
       .toPromise()
@@ -46,8 +47,12 @@ export class EmployeesTableComponent implements OnInit {
           .getSalaryTable()
           .toPromise()
           .then(salaryTable => {
-            let employeesWithSalary = this.calculateSalary(employees, salaryTable[0]);
-            this.httpReq.roles = salaryTable;
+            let roles = [];
+            for (let role in salaryTable) {
+              Object.assign(roles, salaryTable[role]);
+            }
+            this.httpReq.roles = roles;
+            let employeesWithSalary = this.calculateSalary(employees, salaryTable);
             this.httpReq.employeesSubject.next(employeesWithSalary);
           });
       });
@@ -56,12 +61,15 @@ export class EmployeesTableComponent implements OnInit {
   calculateSalary(employees, salaryTable) {
     //calculate salary
     employees.map(v => {
-      if (salaryTable[v["role"]] !== "undefined") {
-        let manager = v.manager ? 5 : 0;
-        let role = salaryTable[v["role"]];
-        let experience = (+v.experience / salaryTable[v["role"]]) * 10;
-        v.salary = Math.round(role + manager + experience);
-      } else v.salary = 0;
+      Object.values(salaryTable).map(val => {
+        if (typeof (val[v["role"]]) !== "undefined") {
+          let manager = v.manager ? 5 : 0;
+          let role = val[v["role"]];
+          let experience = (+v.experience / role) * 10;
+          v.salary = Math.round(role + manager + experience);
+          return;
+        } 
+      });
     });
     return employees;
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from "@angular/core";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { HttpRequestsService } from "../../../services/http-requests.service";
+import _ from 'lodash';
 
 @Component({
   selector: "app-employee-modal",
@@ -8,22 +9,21 @@ import { HttpRequestsService } from "../../../services/http-requests.service";
   styleUrls: ["./employee-modal.component.scss"]
 })
 export class EmployeeModalComponent implements OnInit {
-  companies;
-  roles;
-  submitted = false;
+  companies = []; roles = [];
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
     private httpReq: HttpRequestsService
   ) { }
   ngOnInit() {
-    this.companies = this.httpReq.companies;
+    this.companies = _.map(this.httpReq.companiesSubject.getValue(), 'name');
     this.roles = Object.keys(this.httpReq.roles);
   }
 
   onSubmit(e) {
-    this.submitted = true;
-    if (this.data.action === "Add") this.addEmployee(e);
-    else this.editEmployee(e);
+    if (this.data.action === "Add") 
+      this.addEmployee(e);
+    else 
+      this.editEmployee(e);
   }
   addEmployee(employee) {
     let salary = this.calculateSalary(
@@ -36,7 +36,7 @@ export class EmployeeModalComponent implements OnInit {
     //Add new Employee
     this.httpReq.addEmployee(employee).subscribe(
       result => {
-        employee._id = result._id;
+        employee._id = result['id'];
         this.httpReq.employeesSubject.next(this.httpReq.employeesSubject.getValue().concat([employee]));
       },
       err => {
@@ -66,7 +66,7 @@ export class EmployeeModalComponent implements OnInit {
               v.manager = employee.manager;
               v.experience = employee.experience;
               v.company = employee.company;
-              v.salary = salary;
+              v.salary = +salary;
             }
             return v;
           });
@@ -99,12 +99,13 @@ export class EmployeeModalComponent implements OnInit {
   calculateSalary(role, manager, experience, salaryTable) {
     //calculate salary
     let salary = 0;
-    if (salaryTable[role] !== "undefined") {
-      let isManager = manager ? 5 : 0;
-      let employeeRole = salaryTable[role];
-      let experienceYears = (+experience / salaryTable[role]) * 10;
-      salary = Math.round(employeeRole + isManager + experienceYears);
-    }
-    return salary;
+      if (salaryTable[role] !== "undefined") {
+        let isManager = manager ? 5 : 0;
+        let employeeRole = salaryTable[role];
+        let experienceYears = (+experience / salaryTable[role]) * 10;
+        salary = Math.round(employeeRole + isManager + experienceYears);
+      }
+      return salary;
   }
+
 }

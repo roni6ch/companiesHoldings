@@ -8,8 +8,7 @@ import { HttpRequestsService } from "../../../services/http-requests.service";
   styleUrls: ["./company-modal.component.scss"]
 })
 export class CompanyModalComponent {
-  branches;
-  submitted = false;
+  branches = [];
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
     private httpReq: HttpRequestsService
@@ -21,9 +20,10 @@ export class CompanyModalComponent {
   }
 
   onSubmit(e) {
-    this.submitted = true;
-    if (this.data.action === "Add") this.addCompany(e);
-    else this.editCompany(e);
+    if (this.data.action === "Add") 
+      this.addCompany(e);
+    else 
+      this.editCompany(e);
   }
 
   addCompany(company) {
